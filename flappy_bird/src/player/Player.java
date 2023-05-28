@@ -38,7 +38,7 @@ public class Player implements ImageImport {
         hitbox = new Rectangle((int) x,(int) y,width,height);
     }
 
-    public void fall(){
+    public void fall(){ //method for fall of the player
         if(jumping){
             y -= currentJumpSpeed;
 
@@ -58,7 +58,6 @@ public class Player implements ImageImport {
                 currentFallSpeed += 0.015;
             }
         }
-
         hitbox.y = (int) y;
     }
 

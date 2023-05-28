@@ -32,7 +32,7 @@ public class TopPipe extends Pipe {
     }
 
     @Override
-    public void move() {
+    public void move() { //method for top pipe move
         x -= getMoveSpeed();
         getPipeHitbox().x = (int) x;
         getPipeHitbox().y = (int) y;
