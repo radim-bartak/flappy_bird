@@ -23,7 +23,7 @@ public abstract class Pipe implements ImageImport {
         this.moveSpeed = moveSpeed;
         this.width = width;
         this.height = height;
-        this.pipeHitbox = new Rectangle((int) x,(int) y,width,height);
+        this.pipeHitbox = new Rectangle((int) x,(int) y,width,height); //creates hitbox for collision
         importImg();
     }
 

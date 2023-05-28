@@ -35,30 +35,30 @@ public class Player implements ImageImport {
         this.jumpSpeed = jumpSpeed;
 
         importImg();
-        hitbox = new Rectangle((int) x,(int) y,width,height);
+        hitbox = new Rectangle((int) x,(int) y,width,height); //creates hitbox for collision
     }
 
     public void fall(){ //method for fall of the player
-        if(jumping){
+        if(jumping){ //if player jumps:
             y -= currentJumpSpeed;
 
-            currentJumpSpeed -= 0.1;
+            currentJumpSpeed -= 0.1; //jumping gets progressively slower until it stops at zero
 
             if(y <= 0) {
-                jumping = false;
+                jumping = false; //if player hits the roof, then he can't jump anymore
             }
-            if(currentJumpSpeed <= 0){
+            if(currentJumpSpeed <= 0){ //jump stops
                 currentJumpSpeed = jumpSpeed;
                 currentFallSpeed = fallSpeed;
                 jumping = false;
             }
-        }else{
+        }else{ //player falls:
             y += currentFallSpeed;
             if(currentFallSpeed < 2){
-                currentFallSpeed += 0.015;
+                currentFallSpeed += 0.015; //falling gets progressively faster until the speed of two
             }
         }
-        hitbox.y = (int) y;
+        hitbox.y = (int) y; //hitbox moves with player
     }
 
     @Override

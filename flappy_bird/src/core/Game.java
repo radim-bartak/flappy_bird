@@ -34,23 +34,23 @@ public class Game implements Runnable{
     private int highScore;
 
     public Game(){
-        bg = new Background(0,0.5);
+        bg = new Background(0,0.5); //Creates background object
         topPipes = new Pipe[5]; //New array of top pipes objects
         botPipes = new Pipe[5]; //New array of bottom pipes objects
 
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 5; i++){ //Adding pipe objects to arrays
             topPipes[i] = new TopPipe(1300+(i*500),0,1300+(i*500),1,100,400);
             botPipes[i] = new BottomPipe(1300+(i*500),0,1300+(i*500),1,100,400);
         }
 
-        fl = new Floor(0, 683,1);
-        player = new Player(300,300,300,74,44,0.5,false,4.5);
+        fl = new Floor(0, 683,1); //Creates floor object
+        player = new Player(300,300,300,74,44,0.5,false,4.5); //Creates player object
 
         gamePanel = new Panel(this);
         gameWindow = new Window(gamePanel);
         gamePanel.requestFocus();
 
-        startGameLoop();
+        startGameLoop(); //game loop starts
     }
 
     private void startGameLoop(){
@@ -78,13 +78,13 @@ public class Game implements Runnable{
             frameDiff += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
 
-            if(tickDiff >= 1){
+            if(tickDiff >= 1){ //TPS
                 tick();
                 ticks++;
                 tickDiff--;
             }
 
-            if(frameDiff >= 1){
+            if(frameDiff >= 1){ //FPS
                 gamePanel.repaint();
                 frames++;
                 frameDiff--;
@@ -92,35 +92,35 @@ public class Game implements Runnable{
         }
     }
 
-    public void tick(){
+    public void tick(){ //method for one tick of the game
         switch (gameState){
-            case START:
-                bg.move();
-                fl.move();
+            case START: //tick while start screen
+                bg.move(); //background moving
+                fl.move(); //floor moving
                 break;
-            case PLAYING:
-                player.fall();
+            case PLAYING: //tick while playing
+                player.fall(); //player falls and jumps
                 bg.move();
                 fl.move();
-                for (Pipe topPipe : topPipes) {
+                for (Pipe topPipe : topPipes) { //each top pipe moves
                     topPipe.move();
-                    if(topPipe.getPipeHitbox().intersects(player.getHitbox())){
+                    if(topPipe.getPipeHitbox().intersects(player.getHitbox())){ //if player collides with pipe then game over
                         gameState = GameState.GAME_OVER;
                     }
-                    if(topPipe.getX() == 200){
+                    if(topPipe.getX() == 200){  //if player gets through a pipe, player gets a point
                         currentScore += 1;
                         if(currentScore > highScore){
                             highScore = currentScore;
                         }
                     }
                 }
-                for (Pipe botPipe : botPipes) {
+                for (Pipe botPipe : botPipes) { //each bottom pipe moves
                     botPipe.move();
-                    if(botPipe.getPipeHitbox().intersects(player.getHitbox())){
+                    if(botPipe.getPipeHitbox().intersects(player.getHitbox())){ //if player collides with pipe then game over
                         gameState = GameState.GAME_OVER;
                     }
                 }
-                if(player.getHitbox().intersects(fl.getFlHitbox())){
+                if(player.getHitbox().intersects(fl.getFlHitbox())){ //if player collides with floor then game over
                     gameState = GameState.GAME_OVER;
                 }
                 break;
@@ -129,53 +129,53 @@ public class Game implements Runnable{
         }
     }
 
-    public void render(Graphics g) throws IOException, FontFormatException {
-        bg.render(g);
-        player.render(g);
-        for (Pipe topPipe : topPipes) {
+    public void render(Graphics g) throws IOException, FontFormatException { //method for rendering objects of the game
+        bg.render(g); //rendering background
+        player.render(g); //rendering player
+        for (Pipe topPipe : topPipes) { //rendering top pipes from array
             topPipe.render(g);
         }
-        for (Pipe botPipe : botPipes) {
+        for (Pipe botPipe : botPipes) { //rendering bottom pipes from array
             botPipe.render(g);
         }
-        fl.render(g);
+        fl.render(g); //rendering floor
         switch (gameState) {
-            case PLAYING:
+            case PLAYING: //render when playing
                 font = new Font("Agency FB",Font.BOLD,40);
                 g.setFont(font);
                 g.setColor(Color.white);
-                g.drawString(String.valueOf(currentScore), 640, 50);
+                g.drawString(String.valueOf(currentScore), 640, 50); //shows current score
                 break;
-            case GAME_OVER:
+            case GAME_OVER: //render game over screen
                 try {
                     gameOver = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/gameover_screen.png")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                g.drawImage(gameOver,0,0,null);
+                g.drawImage(gameOver,0,0,null); //render game over screen
 
                 g.setFont(font);
                 g.setColor(Color.white);
-                g.drawString("HIGHSCORE: " + String.valueOf(highScore), 540, 300);
+                g.drawString("HIGHSCORE: " + String.valueOf(highScore), 540, 300); //render high score title
 
-                currentScore = 0;
+                currentScore = 0; //current score resets back to zero
                 break;
-            case START:
+            case START: //render start screen
                 try {
                     start = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/start_screen.png")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                g.drawImage(start,0,0,null);
+                g.drawImage(start,0,0,null); //render start screen
 
-                player.setY(player.getStartY());
-                for (Pipe topPipe : topPipes) {
+                player.setY(player.getStartY()); //resets player back to starting position
+                for (Pipe topPipe : topPipes) { //resets top pipes back to starting position
                     topPipe.setX(topPipe.getStartX());
-                    topPipe.setY(-(140 + rn.nextInt(60)));
+                    topPipe.setY(-(50 + rn.nextInt(100))); //random gap between pipes
                 }
-                for (Pipe botPipe : botPipes) {
+                for (Pipe botPipe : botPipes) { //resets bottom pipes back to starting position
                     botPipe.setX(botPipe.getStartX());
-                    botPipe.setY(400+(40 - rn.nextInt(60)));
+                    botPipe.setY(400+(50 + rn.nextInt(100))); //random gap between pipes
                 }
         }
     }

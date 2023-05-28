@@ -24,13 +24,13 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         switch (gamePanel.getGame().getGameState()){
             case START:
-                gamePanel.getGame().setGameState(GameState.PLAYING);
+                gamePanel.getGame().setGameState(GameState.PLAYING); //game starts
                 break;
             case PLAYING:
-                gamePanel.getGame().getPlayer().setJumping(true);
+                gamePanel.getGame().getPlayer().setJumping(true); //player jumps
                 break;
             case GAME_OVER:
-                gamePanel.getGame().setGameState(GameState.START);
+                gamePanel.getGame().setGameState(GameState.START); //game back to start
                 break;
         }
 
@@ -38,8 +38,6 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-       // System.out.println("released");
-        // gamePanel.getGame().getPlayer().setFallSpeed(2);
     }
 
     @Override

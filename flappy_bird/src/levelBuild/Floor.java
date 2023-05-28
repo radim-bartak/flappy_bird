@@ -17,7 +17,7 @@ public class Floor extends Background implements ImageImport {
     public Floor(double x, int y, double moveSpeed) {
         super(x, moveSpeed);
         this.y = y;
-        flHitbox = new Rectangle((int) x,y,2560,(800-y));
+        flHitbox = new Rectangle((int) x,y,2560,(800-y)); //creates hitbox for collision
 
     }
 

@@ -37,7 +37,7 @@ public class TopPipe extends Pipe {
         getPipeHitbox().x = (int) x;
         getPipeHitbox().y = (int) y;
 
-        if(x <= -100){
+        if(x <= -100){ //if pipe leaves the screen, it travels back behind all other pipes
             x = 2400;
             setY(-(50 + rn.nextInt(100)));
         }

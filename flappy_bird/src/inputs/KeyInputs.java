@@ -24,17 +24,17 @@ public class KeyInputs implements KeyListener {
         switch (gamePanel.getGame().getGameState()){
             case START:
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    gamePanel.getGame().setGameState(GameState.PLAYING);
+                    gamePanel.getGame().setGameState(GameState.PLAYING); //game starts
                 }
                 break;
             case PLAYING:
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    gamePanel.getGame().getPlayer().setJumping(true);
+                    gamePanel.getGame().getPlayer().setJumping(true); //player jumps
                 }
                 break;
             case GAME_OVER:
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    gamePanel.getGame().setGameState(GameState.START);
+                    gamePanel.getGame().setGameState(GameState.START); //game back to start
                 }
                 break;
         }
